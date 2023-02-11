@@ -5,7 +5,7 @@ const className = '.search_input';
 
 /**
  * Searches for an input element, if input doesn't exist then function called again after 1sec.
- * Max count of function calls - 10.
+ * Max count of function calls - 3.
  * @returns { Promise<HTMLInputElement | undefined> } Recursive promise function that returns HTMLInputElement of our Input or undefined.
  */
 const defineElements = () => {
@@ -51,6 +51,11 @@ const triggerScroll = (inputElement, key) => {
     }
 
     pressedLetters.push(key);
+
+    if (isScrollingByCode) {
+        return;
+    }
+
     isScrollingByCode = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -63,15 +68,9 @@ const start = async () => {
         return console.log('%cCannot find necessary input HTMLElement.', 'color: red; margin: 6px 15px; font-size: 18px;');
     }
 
-
     document.addEventListener('keypress', (event) => {
-        if (document.activeElement === inputElement && window.scrollY === 0) {
+        if (document.activeElement === inputElement && (window.scrollY === 0 || event.key === 'Enter')) {
             return;
-        }
-
-        if (isScrollingByCode) {
-            event.preventDefault();
-            return pressedLetters.push(event.key);
         }
 
         event.preventDefault();
@@ -83,8 +82,8 @@ const start = async () => {
         if (!isScrollingByCode || window.scrollY) { return; }
 
         triggerInputFocus(inputElement, pressedLetters.join(''));
-        pressedLetters = [];
         isScrollingByCode = false;
+        pressedLetters = [];
     });
 }
 
