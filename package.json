@@ -1,13 +1,13 @@
 {
   "name": "ldoceonline_extension",
-  "version": "1.0.0",
   "description": "An extension that slightly expands the possibilities of interacting with input (search for words) on the site https://www.ldoceonline.com/. This extension automatically scrolls up and focuses on the desired input if the user starts typing something anywhere on the site.",
+  "version": "1.0.0",
   "main": "./src/index.js",
   "license": "MIT",
   "scripts": {
     "serve": "nodemon --watch ./src/ --exec yarn build",
     "build": "rimraf ./build/* && yarn esbuild",
-    "esbuild": "esbuild ./src/index.js --bundle --minify --outfile=./build/index.js"
+    "esbuild": "esbuild ./src/index.js --outfile=./build/index.js --bundle --minify --target=chrome58,edge16,firefox57,safari11"
   },
   "devDependencies": {
     "esbuild": "0.17.2",
