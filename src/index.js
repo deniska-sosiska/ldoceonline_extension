@@ -38,6 +38,10 @@ const defineElements = () => {
 const triggerInputFocus = (inputElement, text) => {
     inputElement.value += text;
     inputElement.focus();
+
+    setTimeout(() => {
+        inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+    }, 100);
 }
 
 /**
